@@ -11,9 +11,9 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />}/>
-        <Route path="/create-form" element={<CreateForm />} />
-        <Route path="/preview-forms" element={<PreviewForm />} />
-        <Route path="/my-forms" element={<MyForm />} />
+        <Route path="/create" element={<CreateForm />} />
+        <Route path="/preview" element={<PreviewForm />} />
+        <Route path="/myforms" element={<MyForm />} />
       </Routes>
     </Router>
   );
