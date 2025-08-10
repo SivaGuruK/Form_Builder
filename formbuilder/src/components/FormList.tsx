@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Paper,
@@ -10,36 +10,34 @@ import {
   Divider,
   Box,
   IconButton,
+  ListItemButton,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { loadFormsFromStorage } from "../utils/localStorage";
 import { setCurrentForm } from "../store/actions";
+import { useAppDispatch } from "../hooks/hooks";
 
 const FormList: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const forms = useSelector((state: any) => state.forms.forms);
   const [localForms, setLocalForms] = useState<Record<string, any>>({});
 
   useEffect(() => {
-    // Load forms from localStorage on component mount
     const storedForms = loadFormsFromStorage();
     setLocalForms(storedForms);
-  }, [forms]); // Update when Redux forms change
+  }, [forms]);
 
   const handleFormClick = (formId: string) => {
     const form = localForms[formId];
     if (form) {
       dispatch(setCurrentForm(form));
-      // Navigate to preview - you would use your routing here
       window.location.href = "/preview";
     }
   };
 
   const handleDeleteForm = (formId: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    // Dispatch delete action
     dispatch({ type: "DELETE_FORM", payload: formId });
-    // Update local state
     const updatedForms = { ...localForms };
     delete updatedForms[formId];
     setLocalForms(updatedForms);
@@ -47,7 +45,6 @@ const FormList: React.FC = () => {
 
   const handleCreateNew = () => {
     dispatch(setCurrentForm(null));
-    // Navigate to create form - you would use your routing here
     window.location.href = "/create";
   };
 
@@ -73,12 +70,14 @@ const FormList: React.FC = () => {
         ) : (
           <List>
             {Object.values(localForms)
-              .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+              .sort(
+                (a, b) =>
+                  new Date(b.createdAt).getTime() -
+                  new Date(a.createdAt).getTime()
+              )
               .map((form: any) => (
                 <React.Fragment key={form.id}>
                   <ListItem
-                    button
-                    onClick={() => handleFormClick(form.id)}
                     secondaryAction={
                       <IconButton
                         edge="end"
@@ -89,12 +88,14 @@ const FormList: React.FC = () => {
                       </IconButton>
                     }
                   >
-                    <ListItemText
-                      primary={form.name}
-                      secondary={`Created: ${new Date(
-                        form.createdAt
-                      ).toLocaleString()} | Fields: ${form.fields.length}`}
-                    />
+                    <ListItemButton onClick={() => handleFormClick(form.id)}>
+                      <ListItemText
+                        primary={form.name}
+                        secondary={`Created: ${new Date(
+                          form.createdAt
+                        ).toLocaleString()} | Fields: ${form.fields.length}`}
+                      />
+                    </ListItemButton>
                   </ListItem>
                   <Divider />
                 </React.Fragment>

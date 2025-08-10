@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import FormList from "../components/FormList";
 import { loadFormsFromStorage } from "../utils/localStorage";
 import { setCurrentForm } from "../store/actions";
+import { useAppDispatch } from "../hooks/hooks";
 
 const MyFormsPage: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     // Load forms from localStorage when component mounts

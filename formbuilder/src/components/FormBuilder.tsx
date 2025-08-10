@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   Grid,
@@ -19,6 +18,7 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import ReorderIcon from "@mui/icons-material/DragIndicator";
+
 import { FormField, FieldType } from "../assets/types";
 import {
   addField,
@@ -28,6 +28,7 @@ import {
 } from "../store/actions";
 import FieldConfigurator from "./FieldConfigurator";
 import { saveFormToStorage } from "../utils/localStorage";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 
 const fieldTypes: { type: FieldType; label: string }[] = [
   { type: "text", label: "Text" },
@@ -40,8 +41,9 @@ const fieldTypes: { type: FieldType; label: string }[] = [
 ];
 
 const FormBuilder: React.FC = () => {
-  const dispatch = useDispatch();
-  const currentForm = useSelector((state: any) => state.forms.currentForm);
+  const dispatch = useAppDispatch();
+  const currentForm = useAppSelector((state) => state.forms.currentForm);
+
   const [selectedField, setSelectedField] = useState<FormField | null>(null);
   const [isConfigOpen, setIsConfigOpen] = useState(false);
   const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
@@ -132,7 +134,8 @@ const FormBuilder: React.FC = () => {
 
   return (
     <Grid container spacing={3}>
-      <Grid item xs={12} md={3}>
+      {/* Add Field Panel */}
+      <Grid size={4}>
         <Paper elevation={3} style={{ padding: "16px" }}>
           <Typography variant="h6" gutterBottom>
             Add Field
@@ -154,7 +157,8 @@ const FormBuilder: React.FC = () => {
         </Paper>
       </Grid>
 
-      <Grid item xs={12} md={6}>
+      {/* Form Builder */}
+      <Grid size={4}>
         <Paper elevation={3} style={{ padding: "16px" }}>
           <Typography variant="h6" gutterBottom>
             Form Builder
@@ -172,53 +176,49 @@ const FormBuilder: React.FC = () => {
                       No fields added yet. Click on a field type to add one.
                     </Typography>
                   ) : (
-                    currentForm.fields.map(
-                      (field: FormField, index: number) => (
-                        <Draggable
-                          key={field.id}
-                          draggableId={field.id}
-                          index={index}
-                        >
-                          {(provided) => (
-                            <Paper
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              elevation={2}
-                              style={{
-                                margin: "16px 0",
-                                padding: "16px",
-                                display: "flex",
-                                alignItems: "center",
-                                ...provided.draggableProps.style,
-                              }}
+                    currentForm.fields.map((field, index) => (
+                      <Draggable
+                        key={field.id}
+                        draggableId={field.id}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <Paper
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            elevation={2}
+                            style={{
+                              margin: "16px 0",
+                              padding: "16px",
+                              display: "flex",
+                              alignItems: "center",
+                              ...provided.draggableProps.style,
+                            }}
+                          >
+                            <div
+                              {...provided.dragHandleProps}
+                              style={{ marginRight: "8px" }}
                             >
-                              <div
-                                {...provided.dragHandleProps}
-                                style={{ marginRight: "8px" }}
-                              >
-                                <ReorderIcon />
-                              </div>
-                              <div style={{ flexGrow: 1 }}>
-                                <Typography>
-                                  {field.label} ({field.type})
-                                  {field.required && " *"}
-                                </Typography>
-                              </div>
-                              <IconButton
-                                onClick={() => handleFieldClick(field)}
-                              >
-                                <EditIcon />
-                              </IconButton>
-                              <IconButton
-                                onClick={() => handleFieldDelete(field.id)}
-                              >
-                                <DeleteIcon />
-                              </IconButton>
-                            </Paper>
-                          )}
-                        </Draggable>
-                      )
-                    )
+                              <ReorderIcon />
+                            </div>
+                            <div style={{ flexGrow: 1 }}>
+                              <Typography>
+                                {field.label} ({field.type})
+                                {field.required && " *"}
+                              </Typography>
+                            </div>
+                            <IconButton onClick={() => handleFieldClick(field)}>
+                              <EditIcon />
+                            </IconButton>
+                            <IconButton
+                              onClick={() => handleFieldDelete(field.id)}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </Paper>
+                        )}
+                      </Draggable>
+                    ))
                   )}
                   {provided.placeholder}
                 </div>
@@ -228,7 +228,8 @@ const FormBuilder: React.FC = () => {
         </Paper>
       </Grid>
 
-      <Grid item xs={12} md={3}>
+      {/* Field Configurator */}
+      <Grid size={4}>
         {selectedField && isConfigOpen && (
           <FieldConfigurator
             field={selectedField}
@@ -241,7 +242,8 @@ const FormBuilder: React.FC = () => {
         )}
       </Grid>
 
-      <Grid item xs={12}>
+      {/* Save Button */}
+      <Grid size={12}>
         <Button
           variant="contained"
           color="primary"
@@ -252,6 +254,7 @@ const FormBuilder: React.FC = () => {
         </Button>
       </Grid>
 
+      {/* Save Dialog */}
       <Dialog
         open={isSaveDialogOpen}
         onClose={() => setIsSaveDialogOpen(false)}

@@ -1,4 +1,5 @@
-import { FormState, FormSchema, FormField } from "../assets/types";
+import { AnyAction } from "@reduxjs/toolkit";
+import { FormState } from "../assets/types";
 import {
   CREATE_FORM,
   UPDATE_FORM,
@@ -8,7 +9,6 @@ import {
   UPDATE_FIELD,
   DELETE_FIELD,
   REORDER_FIELDS,
-  FormActionTypes,
 } from "./actions";
 
 const initialState: FormState = {
@@ -17,8 +17,8 @@ const initialState: FormState = {
 };
 
 export default function formReducer(
-  state = initialState,
-  action: FormActionTypes
+  state: FormState = initialState,
+  action: AnyAction
 ): FormState {
   switch (action.type) {
     case CREATE_FORM:
@@ -107,7 +107,3 @@ export default function formReducer(
       return state;
   }
 }
-export const resetForm = (): FormActionTypes => ({
-  type: SET_CURRENT_FORM,
-  payload: null,
-});

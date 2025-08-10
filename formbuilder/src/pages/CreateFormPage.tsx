@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import FormBuilder from "../components/FormBuilder";
 import { FormSchema } from "../assets/types";
 import { setCurrentForm } from "../store/actions";
+import { useAppDispatch } from "../hooks/hooks";
 
 const CreateFormPage: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     // Initialize a new form when component mounts

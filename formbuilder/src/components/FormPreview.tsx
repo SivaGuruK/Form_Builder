@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Paper, Typography, Button, Grid, Box, Alert } from "@mui/material";
-import { FormField } from "../assests/types";
+import { FormField } from "../assets/types";
 import { validateField } from "../utils/validation";
 import { calculateDerivedValue } from "../utils/derivedFields";
 import TextField from "./fields/TextField";
@@ -82,12 +82,6 @@ const FormPreview: React.FC = () => {
           value={derivedValue}
           onChange={() => {}}
           errors={[]}
-          fullWidth
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          helperText="This field is automatically calculated"
         />
       );
     }
@@ -137,7 +131,7 @@ const FormPreview: React.FC = () => {
 
   return (
     <Grid container justifyContent="center">
-      <Grid item xs={12} md={8}>
+      <Grid size={12}>
         <Paper elevation={3} style={{ padding: "24px" }}>
           <Typography variant="h4" gutterBottom>
             {currentForm.name}

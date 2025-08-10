@@ -9,18 +9,16 @@ import {
   FormControlLabel,
   Switch,
   Typography,
-  Divider,
   Grid,
   MenuItem,
   Chip,
-  Box,
   FormControl,
   InputLabel,
   Select,
   OutlinedInput,
   SelectChangeEvent,
 } from "@mui/material";
-import { FormField, FieldType } from "../assets/types";
+import { FormField } from "../assets/types";
 
 interface FieldConfiguratorProps {
   field: FormField;
@@ -168,7 +166,7 @@ const FieldConfigurator: React.FC<FieldConfiguratorProps> = ({
       <div style={{ marginTop: "16px" }}>
         <Typography variant="subtitle1">Validation Rules</Typography>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={4}>
             <FormControlLabel
               control={
                 <Switch
@@ -188,7 +186,7 @@ const FieldConfigurator: React.FC<FieldConfiguratorProps> = ({
 
           {["text", "textarea"].includes(localField.type) && (
             <>
-              <Grid item xs={12} sm={6}>
+              <Grid size={4}>
                 <MuiTextField
                   label="Min Length"
                   type="number"
@@ -198,7 +196,7 @@ const FieldConfigurator: React.FC<FieldConfiguratorProps> = ({
                   fullWidth
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={4}>
                 <MuiTextField
                   label="Max Length"
                   type="number"
@@ -208,7 +206,7 @@ const FieldConfigurator: React.FC<FieldConfiguratorProps> = ({
                   fullWidth
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={4}>
                 <FormControlLabel
                   control={
                     <Switch
@@ -222,7 +220,7 @@ const FieldConfigurator: React.FC<FieldConfiguratorProps> = ({
               </Grid>
               {localField.type === "text" && (
                 <>
-                  <Grid item xs={12}>
+                  <Grid size={4}>
                     <FormControlLabel
                       control={
                         <Switch
@@ -234,7 +232,7 @@ const FieldConfigurator: React.FC<FieldConfiguratorProps> = ({
                       label="Email Format"
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={4}>
                     <FormControlLabel
                       control={
                         <Switch
