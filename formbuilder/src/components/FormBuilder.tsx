@@ -165,7 +165,7 @@ const FormBuilder: React.FC = () => {
           </Typography>
           <Divider />
           <DragDropContext onDragEnd={handleDragEnd}>
-            <Droppable droppableId="fields">
+            <Droppable droppableId="fields" isDropDisabled={false}>
               {(provided) => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
                   {currentForm.fields.length === 0 ? (
