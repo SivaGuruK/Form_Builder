@@ -1,22 +1,32 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import { Provider } from "react-redux";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from './pages/Home/Home';
-import CreateForm from './pages/CreateForm/CreateForm';
-import PreviewForm from './pages/PreviewForm/PreviewForm';
-import MyForm from './pages/MyForm/MyForm';
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import { store } from "./store/store";
+import theme from "./theme";
+import Home from "./pages/Home";
+import CreateFormPage from "./pages/CreateFormPage";
+import PreviewFormPage from "./pages/PreviewFormPage";
+import MyFormsPage from "./pages/MyFormsPage";
 
-function App() {
+
+const App: React.FC = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />}/>
-        <Route path="/create" element={<CreateForm />} />
-        <Route path="/preview" element={<PreviewForm />} />
-        <Route path="/myforms" element={<MyForm />} />
-      </Routes>
-    </Router>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router>
+          <Routes>
+            <Route path="/create" element={<CreateFormPage />} />
+            <Route path="/preview" element={<PreviewFormPage />} />
+            <Route path="/myforms" element={<MyFormsPage />} />
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </Router>
+      </ThemeProvider>
+    </Provider>
   );
-}
+};
 
 export default App;
